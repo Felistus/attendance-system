@@ -1,5 +1,5 @@
-import AttendancePenIcon from "../components/images/AttendancePenIcon";
-import SignAttendanceImage from "../components/images/SignAttendanceImage";
+import AttendancePenIcon from "../icons/AttendancePenIcon";
+import SignAttendanceImage from "../SignAttendanceImage";
 
 export default function AttendanceForm() {
   return (

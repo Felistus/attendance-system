@@ -1,5 +1,5 @@
-import UserIcons from "../components/images/UserIcons";
-import WelcomeLoginImage from "../components/images/WelcomeLoginImage";
+import UserIcons from "../icons/UserIcons";
+import WelcomeLoginImage from "../WelcomeLoginImage";
 
 export default function Login() {
   return (
