@@ -23,6 +23,25 @@ export default function AttendanceForm() {
               className="px-2 py-4 outline-none rounded-md my-4 w-full uppercase "
               placeholder="phone number... (eg: 08012345678)"
             />
+            <select
+              name="courses"
+              id="courses"
+              className="outline-none w-full rounded-md px-2 py-2 uppercase"
+            >
+              <option value="" disabled>
+                Select Course
+              </option>
+              <option value="English Language">English Language</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+              <option value="Philosophy">Philosophy</option>
+              <option value="Engineering Drawing">Engineering Drawing</option>
+              <option value="Engineering Workshop">Engineering Workshop</option>
+              <option value="General Studies">General Studies</option>
+              <option value="Statistics">Statistics</option>
+            </select>
             <button className="w-full p-2 my-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold">
               mark attendance
             </button>
