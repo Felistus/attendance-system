@@ -1,13 +1,14 @@
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import { useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
+import UserDetailsContext from "../../context/userContext";
 
 export default function AttendanceTable() {
-  const user = JSON.parse(localStorage.getItem("userInformation") || "[]");
-  const [rowData, setRowData] = useState<any[]>([]);
+  const userDetails = useContext(UserDetailsContext).userDetails;
+  const [rowData, setRowData] = useState<any>([]);
   useLayoutEffect(() => {
-    setRowData(user);
+    setRowData(userDetails);
   }, []);
   const [columnDefs] = useState([
     {
@@ -21,7 +22,7 @@ export default function AttendanceTable() {
       editable: true,
     },
     { field: "mobile", editable: true },
-    { field: "password" },
+    { field: "password", editable: true },
     { field: "mathematics" },
     { field: "englishLanguage" },
     { field: "physics" },

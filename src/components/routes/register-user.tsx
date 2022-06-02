@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import UserDetailsContext from "../../context/userContext";
 import AdminIcon from "../icons/AdminIcon";
 
 interface userDetail {
@@ -19,73 +20,93 @@ interface userDetail {
   date: Array<string>;
 }
 export default function RegisterUser() {
-  const user = JSON.parse(localStorage.getItem("userInformation") || "[]");
-  const [userDetails, setUserDetails] = useState<any[]>([...user]);
-  const [formDetails, setFormDetails] = useState({
+  const nameCheckReg = /[^aA-zZ]/g; //regular expression to check if the username contains digits
+  const numberCheckReg = /[0-9]/g; //regular expression to check if the user phone number contains digits only or combined and extracts only digits
+  const { userDetails, updateUserDetails } = useContext(UserDetailsContext);
+  const [user, setUser] = useState<any[]>([...userDetails]);
+  const [formDetail, setFormDetail] = useState({
     firstName: "",
     lastName: "",
     phoneNumber: "",
   });
   useEffect(() => {
-    if (userDetails.length !== 0)
-      localStorage.setItem("userInformation", JSON.stringify(userDetails));
-  }, [userDetails]);
-  const handleFormSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    const userInfo: userDetail = {
-      firstName: formDetails.firstName,
-      lastName: formDetails.lastName,
-      mobile: formDetails.phoneNumber,
-      password: Math.random().toString(36).slice(2),
-      mathematics: 0,
-      englishLanguage: 0,
-      biology: 0,
-      chemistry: 0,
-      physics: 0,
-      philosophy: 0,
-      engineeringDrawing: 0,
-      engineeringWorkshop: 0,
-      generalStudies: 0,
-      statistics: 0,
-      date: [],
-    };
-    if (
-      formDetails.firstName === "" ||
-      formDetails.lastName === "" ||
-      formDetails.phoneNumber === ""
-    )
-      return;
-    else {
-      setUserDetails([...userDetails, userInfo]);
+    if (user.length !== 0) {
+      localStorage.setItem("userInformation", JSON.stringify(user));
+      updateUserDetails(user);
     }
-    setFormDetails({
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-    });
+  }, [user]);
+
+  const handleRegisterFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (formDetail.firstName && formDetail.lastName && formDetail.phoneNumber) {
+      const userMobile = formDetail.phoneNumber.match(numberCheckReg);
+      const userName = formDetail.firstName.match(nameCheckReg);
+      const surName = formDetail.lastName.match(nameCheckReg);
+
+      if (!userName && !surName) {
+        if (userMobile) {
+          if (userMobile.length === 11) {
+            const validUserMobile = userMobile.join("");
+
+            const userInfo: userDetail = {
+              firstName: formDetail.firstName,
+              lastName: formDetail.lastName,
+              mobile: validUserMobile,
+              password: Math.random().toString(36).slice(2),
+              mathematics: 0,
+              englishLanguage: 0,
+              biology: 0,
+              chemistry: 0,
+              physics: 0,
+              philosophy: 0,
+              engineeringDrawing: 0,
+              engineeringWorkshop: 0,
+              generalStudies: 0,
+              statistics: 0,
+              date: [],
+            };
+            setUser([...user, userInfo]);
+            alert("Successfully registered");
+            setFormDetail({
+              firstName: "",
+              lastName: "",
+              phoneNumber: "",
+            });
+          } else {
+            alert("Phone Number should be 11 digits");
+          }
+        } else {
+          alert("Invalid number format");
+        }
+      } else {
+        alert("Name should contain only alphabets");
+      }
+    } else {
+      alert("Please provide all details");
+    }
   };
   const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormDetails({
-      ...formDetails,
+    setFormDetail({
+      ...formDetail,
       firstName: event.target.value,
     });
   };
   const handleLastNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormDetails({
-      ...formDetails,
+    setFormDetail({
+      ...formDetail,
       lastName: event.target.value,
     });
   };
   const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormDetails({
-      ...formDetails,
+    setFormDetail({
+      ...formDetail,
       phoneNumber: event.target.value,
     });
   };
   return (
     <div className="my-auto">
       <form
-        onSubmit={handleFormSubmit}
+        onSubmit={handleRegisterFormSubmit}
         className="md:w-[400px] max-w-[400px] bg-[#536DFE] py-4 px-8 rounded-lg  "
       >
         <div className="flex justify-center items-center ">
@@ -97,7 +118,7 @@ export default function RegisterUser() {
         <input
           type="text"
           name="first-name"
-          value={formDetails.firstName}
+          value={formDetail.firstName}
           onChange={handleFirstNameChange}
           className="px-2 py-4 outline-none rounded-md my-4 w-full uppercase "
           placeholder="Enter your first name"
@@ -105,7 +126,7 @@ export default function RegisterUser() {
         <input
           type="text"
           name="last-name"
-          value={formDetails.lastName}
+          value={formDetail.lastName}
           onChange={handleLastNameChange}
           className="px-2 py-4 outline-none rounded-md w-full uppercase "
           placeholder="Enter your last name"
@@ -113,7 +134,7 @@ export default function RegisterUser() {
         <input
           type="tel"
           name="user-phone-number"
-          value={formDetails.phoneNumber}
+          value={formDetail.phoneNumber}
           onChange={handlePhoneChange}
           className="px-2 py-4 outline-none rounded-md my-4 w-full uppercase "
           placeholder="phone number... (eg: 08012345678)"

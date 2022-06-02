@@ -1,7 +1,16 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AttendancePenIcon from "../icons/AttendancePenIcon";
 import SignAttendanceImage from "../SignAttendanceImage";
 
 export default function AttendanceForm() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const loggedInUser = JSON.parse(
+      sessionStorage.getItem("loggedInUser") || "{}"
+    );
+    if (Object.keys(loggedInUser).length === 0) navigate("/login");
+  }, []);
   return (
     <main className="w-full h-screen bg-slate-200">
       <section className="w-full h-full items-center justify-center flex md:flex-row-reverse flex-col-reverse px-4 ">
@@ -28,7 +37,7 @@ export default function AttendanceForm() {
               id="courses"
               className="outline-none w-full rounded-md px-2 py-2 uppercase"
             >
-              <option value="" disabled>
+              <option value="" disabled aria-disabled>
                 Select Course
               </option>
               <option value="English Language">English Language</option>
