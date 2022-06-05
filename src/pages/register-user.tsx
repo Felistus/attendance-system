@@ -1,27 +1,10 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import UserDetailsContext from "../../context/userContext";
-import AdminIcon from "../icons/AdminIcon";
+import { UserDetailsContext } from "../context/context-file";
+import AdminIcon from "../components/icons/AdminIcon";
+import { nameCheckReg, numberCheckReg } from "../utility";
+import { userDetailType } from "../customTypes/types";
 
-interface userDetail {
-  firstName: string;
-  lastName: string;
-  mobile: string;
-  password: string;
-  mathematics: number;
-  englishLanguage: number;
-  biology: number;
-  chemistry: number;
-  physics: number;
-  engineeringDrawing: number;
-  engineeringWorkshop: number;
-  statistics: number;
-  philosophy: number;
-  generalStudies: number;
-  date: Array<string>;
-}
 export default function RegisterUser() {
-  const nameCheckReg = /[^aA-zZ]/g; //regular expression to check if the username contains digits
-  const numberCheckReg = /[0-9]/g; //regular expression to check if the user phone number contains digits only or combined and extracts only digits
   const { userDetails, updateUserDetails } = useContext(UserDetailsContext);
   const [user, setUser] = useState<any[]>([...userDetails]);
   const [formDetail, setFormDetail] = useState({
@@ -48,7 +31,7 @@ export default function RegisterUser() {
           if (userMobile.length === 11) {
             const validUserMobile = userMobile.join("");
 
-            const userInfo: userDetail = {
+            const userInfo: userDetailType = {
               firstName: formDetail.firstName,
               lastName: formDetail.lastName,
               mobile: validUserMobile,

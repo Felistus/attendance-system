@@ -1,16 +1,7 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import AttendancePenIcon from "../icons/AttendancePenIcon";
-import SignAttendanceImage from "../SignAttendanceImage";
+import AttendancePenIcon from "../components/icons/AttendancePenIcon";
+import SignAttendanceImage from "../components/SignAttendanceImage";
 
 export default function AttendanceForm() {
-  const navigate = useNavigate();
-  useEffect(() => {
-    const loggedInUser = JSON.parse(
-      sessionStorage.getItem("loggedInUser") || "{}"
-    );
-    if (Object.keys(loggedInUser).length === 0) navigate("/login");
-  }, []);
   return (
     <main className="w-full h-screen bg-slate-200">
       <section className="w-full h-full items-center justify-center flex md:flex-row-reverse flex-col-reverse px-4 ">

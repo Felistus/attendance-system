@@ -1,18 +1,21 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import UserDetailsContext from "../../context/userContext";
-import UserIcons from "../icons/UserIcons";
-import WelcomeLoginImage from "../WelcomeLoginImage";
+import { UserContext, UserDetailsContext } from "../context/context-file";
+import UserIcons from "../components/icons/UserIcons";
+import WelcomeLoginImage from "../components/WelcomeLoginImage";
 import Cookies from "js-cookie";
+import { numberCheckReg } from "../utility";
+
 export default function Login() {
   const navigate = useNavigate();
   const userDetails = useContext(UserDetailsContext).userDetails;
-  const users = JSON.parse(userDetails);
-  const numberCheckReg = /[0-9]/g; //regular expression to check if the user phone number contains digits only or combined and extracts only digits
+  const userArray = Array.isArray(userDetails) ? userDetails : [];
+  const { user, updateLoggedInUser } = useContext(UserContext);
   const [loginDetails, setLoginDetails] = useState({
     phoneNumber: "",
     password: "",
   });
+
   const handleLoginFormSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (loginDetails.phoneNumber && loginDetails.password) {
@@ -21,19 +24,20 @@ export default function Login() {
       if (loginMobile) {
         if (loginMobile.length === 11) {
           const validUserMobile = loginMobile.join("");
-          const registeredUser = users.find(
-            (user: { mobile: string }) => user.mobile === validUserMobile
+          const loggedInUser = userArray.find(
+            (person: { mobile: string }) => person.mobile === validUserMobile
           );
-          if (registeredUser) {
-            if (registeredUser.password === loginDetails.password) {
-              Reflect.deleteProperty(registeredUser, "password");
-              console.log(registeredUser);
+          if (loggedInUser) {
+            if (loggedInUser.password === loginDetails.password) {
+              Reflect.deleteProperty(loggedInUser, "password");
+              updateLoggedInUser(loggedInUser);
+              // Cookies.set("user", JSON.stringify(loggedInUser));
               sessionStorage.setItem(
-                "loggedInUser",
-                JSON.stringify(registeredUser)
+                "loggedUser",
+                JSON.stringify(loggedInUser)
               );
-              // Cookies.set("user", JSON.stringify(registeredUser));
-              // navigate("/attendance-form");
+              updateLoggedInUser(loggedInUser);
+              navigate("/attendance-form");
             } else {
               alert("Wrong Password");
             }
@@ -65,14 +69,7 @@ export default function Login() {
   };
 
   useEffect(() => {
-    const loggedInUser = JSON.parse(
-      sessionStorage.getItem("loggedInUser") || "{}"
-    );
-    if (Object.keys(loggedInUser).length === 0) navigate("/login");
-    else {
-      if (loggedInUser["mobile"] === "23288923292") navigate("/");
-      else navigate("/attendance-form");
-    }
+    if (Object.keys(user).length !== 0) navigate("/attendance-form");
   }, []);
 
   return (

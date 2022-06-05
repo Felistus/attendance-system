@@ -2,7 +2,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { useContext, useLayoutEffect, useState } from "react";
-import UserDetailsContext from "../../context/userContext";
+import { UserDetailsContext } from "../context/context-file";
 
 export default function AttendanceTable() {
   const userDetails = useContext(UserDetailsContext).userDetails;
