@@ -1,45 +1,100 @@
-import { useState } from "react";
-import logo from "./logo.svg";
-import "./App.scss";
+import { useContext, useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  AdminContext,
+  UserContext,
+  UserDetailsContext,
+} from "./context/context-file";
+import AdminLogin from "./pages/admin-login";
+import AdminPanel from "./pages/admin-panel";
+import AttendanceForm from "./pages/attendance-form";
+import AttendanceTable from "./pages/attendance-table";
+import Login from "./pages/login";
+import RegisterUser from "./pages/register-user";
 
-function App() {
-  const [count, setCount] = useState(0);
+export default function App() {
+  const [userDetails, setUserDetails] = useState(
+    JSON.parse(localStorage.getItem("userInformation") || "[]")
+  );
+  const [adminUser, setAdminUser] = useState(
+    JSON.parse(sessionStorage.getItem("adminLoggedIn") || "{}")
+  );
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("loggedUser") || "{}")
+  );
+
+  function updateUserDetails(newUser: {}) {
+    setUserDetails(newUser);
+  }
+  function updateLoggedInUser(newUser: {}) {
+    setUser(newUser);
+  }
+  function updateAdminUser(currentPerson: {}) {
+    setAdminUser(currentPerson);
+  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <UserDetailsContext.Provider value={{ userDetails, updateUserDetails }}>
+      <AdminContext.Provider value={{ adminUser, updateAdminUser }}>
+        <UserContext.Provider value={{ user, updateLoggedInUser }}>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<AdminPanel />}>
+                <Route path="/" element={<AdminLogin />} />
+                <Route
+                  path="register-user"
+                  element={
+                    <RequireAuth>
+                      <RegisterUser />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="attendance-table"
+                  element={
+                    <RequireAuth>
+                      <AttendanceTable />
+                    </RequireAuth>
+                  }
+                />
+              </Route>
+              <Route
+                path="attendance-form"
+                element={
+                  <ProtectedPage>
+                    <AttendanceForm />
+                  </ProtectedPage>
+                }
+              />
+
+              <Route path="login" element={<Login />} />
+              <Route
+                path="*"
+                element={
+                  <main className="p-4">
+                    <p>There is nothing Here...!</p>
+                  </main>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </UserContext.Provider>
+      </AdminContext.Provider>
+    </UserDetailsContext.Provider>
   );
 }
 
-export default App;
+function RequireAuth({ children }: { children: JSX.Element }) {
+  const loggedInUser = useContext(AdminContext).adminUser;
+  if (Object.keys(loggedInUser).length !== 0) {
+    return children;
+  }
+  return <Navigate to="/" />;
+}
+function ProtectedPage({ children }: { children: JSX.Element }) {
+  const loggedInUser = useContext(UserContext).user;
+  if (Object.keys(loggedInUser).length !== 0) {
+    return children;
+  }
+  return <Navigate to="/login" />;
+}
