@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import AttendancePenIcon from "../components/icons/AttendancePenIcon";
 import SignAttendanceImage from "../components/SignAttendanceImage";
 import { UserContext, UserDetailsContext } from "../context/context-file";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AttendanceForm() {
   const navigate = useNavigate();
-  const loggedUser = useContext(UserContext).user;
+  const { user, updateLoggedInUser } = useContext(UserContext);
   const userDetails = useContext(UserDetailsContext).userDetails;
   const selectOptionRef = useRef<HTMLSelectElement>(null);
   const [userNumber, setUserNumber] = useState<string>("");
@@ -19,12 +21,12 @@ export default function AttendanceForm() {
     const subject: any = selectOptionRef.current?.value;
     e.preventDefault();
     if (userNumber !== "" && selectOptionRef.current?.value !== "") {
-      if (loggedUser.mobile === userNumber) {
+      if (user.mobile === userNumber) {
         userDetails.forEach((user: any, index: number) => {
           if (user.mobile === userNumber) {
             if (user.hasOwnProperty(subject)) {
               user[subject] += 1;
-              user.password = loggedUser.password;
+              user.password = user.password;
               const totalAttendance: number =
                 user.biology +
                 user.chemistry +
@@ -40,13 +42,13 @@ export default function AttendanceForm() {
             }
           }
           userDetails.splice(index, 1, user);
-          alert("Successfully signed attendance");
-          sessionStorage.removeItem("loggedUser");
-          navigate("/login");
-          return userDetails;
+          toast.success("Attendance marked successfully");
+          // sessionStorage.removeItem("loggedUser");
+          // updateLoggedInUser({});
+          // navigate("/login"); //install lodash Delay
         });
       } else {
-        return alert("User not logged in!");
+        toast.info("Please enter your correct mobile number");
       }
       localStorage.setItem("userInformation", JSON.stringify(userDetails));
     }
@@ -101,7 +103,6 @@ export default function AttendanceForm() {
             </button>
           </form>
         </div>
-
         <div className="md:w-3/6 p-4 mb-4  ">
           <SignAttendanceImage />
         </div>

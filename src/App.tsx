@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import {
   AdminContext,
   UserContext,
@@ -78,6 +79,7 @@ export default function App() {
               />
             </Routes>
           </BrowserRouter>
+          <ToastContainer />
         </UserContext.Provider>
       </AdminContext.Provider>
     </UserDetailsContext.Provider>

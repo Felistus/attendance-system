@@ -5,6 +5,7 @@ import UserIcons from "../components/icons/UserIcons";
 import WelcomeLoginImage from "../components/WelcomeLoginImage";
 import Cookies from "js-cookie";
 import { numberCheckReg } from "../utility";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ export default function Login() {
             if (loggedInUser.password === loginDetails.password) {
               // Reflect.deleteProperty(loggedInUser, "password");
               updateLoggedInUser(loggedInUser);
-              // Cookies.set("user", JSON.stringify(loggedInUser));
               sessionStorage.setItem(
                 "loggedUser",
                 JSON.stringify(loggedInUser)
@@ -38,19 +38,19 @@ export default function Login() {
               updateLoggedInUser(loggedInUser);
               navigate("/attendance-form");
             } else {
-              alert("Wrong Password");
+              toast.error("Wrong password");
             }
           } else {
-            alert("User does not exist");
+            toast.info("User not found");
           }
         } else {
-          alert("Phone number must be 11 digits");
+          toast.warning("Invalid phone number (11 digits only!)");
         }
       } else {
-        alert("Phone number must contain digits only");
+        toast.warning("Phone number must contain digits only");
       }
     } else {
-      alert("Please provide all details");
+      toast.warning("Please fill in all fields");
     }
   };
 
