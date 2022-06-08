@@ -9,7 +9,6 @@ import { numberCheckReg } from "../utility";
 export default function Login() {
   const navigate = useNavigate();
   const userDetails = useContext(UserDetailsContext).userDetails;
-  const userArray = Array.isArray(userDetails) ? userDetails : [];
   const { user, updateLoggedInUser } = useContext(UserContext);
   const [loginDetails, setLoginDetails] = useState({
     phoneNumber: "",
@@ -24,12 +23,12 @@ export default function Login() {
       if (loginMobile) {
         if (loginMobile.length === 11) {
           const validUserMobile = loginMobile.join("");
-          const loggedInUser = userArray.find(
+          const loggedInUser = userDetails.find(
             (person: { mobile: string }) => person.mobile === validUserMobile
           );
           if (loggedInUser) {
             if (loggedInUser.password === loginDetails.password) {
-              Reflect.deleteProperty(loggedInUser, "password");
+              // Reflect.deleteProperty(loggedInUser, "password");
               updateLoggedInUser(loggedInUser);
               // Cookies.set("user", JSON.stringify(loggedInUser));
               sessionStorage.setItem(

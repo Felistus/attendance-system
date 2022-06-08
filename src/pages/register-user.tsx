@@ -28,33 +28,40 @@ export default function RegisterUser() {
 
       if (!userName && !surName) {
         if (userMobile) {
-          if (userMobile.length === 11) {
-            const validUserMobile = userMobile.join("");
-
-            const userInfo: userDetailType = {
-              firstName: formDetail.firstName,
-              lastName: formDetail.lastName,
-              mobile: validUserMobile,
-              password: Math.random().toString(36).slice(2),
-              mathematics: 0,
-              englishLanguage: 0,
-              biology: 0,
-              chemistry: 0,
-              physics: 0,
-              philosophy: 0,
-              engineeringDrawing: 0,
-              engineeringWorkshop: 0,
-              generalStudies: 0,
-              statistics: 0,
-              date: [],
-            };
-            setUser([...user, userInfo]);
-            alert("Successfully registered");
-            setFormDetail({
-              firstName: "",
-              lastName: "",
-              phoneNumber: "",
-            });
+          const validUserMobile = userMobile.join("");
+          if (validUserMobile.length === 11) {
+            const userExist = userDetails.find(
+              (person: { mobile: string }) => person.mobile === validUserMobile
+            );
+            if (!userExist) {
+              const userInfo: userDetailType = {
+                firstName: formDetail.firstName,
+                lastName: formDetail.lastName,
+                mobile: validUserMobile,
+                password: Math.random().toString(36).slice(2),
+                mathematics: 0,
+                englishLanguage: 0,
+                biology: 0,
+                chemistry: 0,
+                physics: 0,
+                philosophy: 0,
+                engineeringDrawing: 0,
+                engineeringWorkshop: 0,
+                generalStudies: 0,
+                statistics: 0,
+                date: [],
+                percentageAttendance: 0,
+              };
+              setUser([...user, userInfo]);
+              alert("Successfully registered");
+              setFormDetail({
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+              });
+            } else {
+              alert("User already exist");
+            }
           } else {
             alert("Phone Number should be 11 digits");
           }
@@ -125,7 +132,7 @@ export default function RegisterUser() {
         <input
           type="submit"
           value="register"
-          className="w-full p-2 mb-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold"
+          className="w-full p-2 mb-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold outline-none cursor-pointer"
         />
       </form>
     </div>
