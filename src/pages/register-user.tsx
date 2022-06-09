@@ -3,6 +3,7 @@ import { UserDetailsContext } from "../context/context-file";
 import AdminIcon from "../components/icons/AdminIcon";
 import { nameCheckReg, numberCheckReg } from "../utility";
 import { userDetailType } from "../customTypes/types";
+import { toast } from "react-toastify";
 
 export default function RegisterUser() {
   const { userDetails, updateUserDetails } = useContext(UserDetailsContext);
@@ -28,44 +29,51 @@ export default function RegisterUser() {
 
       if (!userName && !surName) {
         if (userMobile) {
-          if (userMobile.length === 11) {
-            const validUserMobile = userMobile.join("");
-
-            const userInfo: userDetailType = {
-              firstName: formDetail.firstName,
-              lastName: formDetail.lastName,
-              mobile: validUserMobile,
-              password: Math.random().toString(36).slice(2),
-              mathematics: 0,
-              englishLanguage: 0,
-              biology: 0,
-              chemistry: 0,
-              physics: 0,
-              philosophy: 0,
-              engineeringDrawing: 0,
-              engineeringWorkshop: 0,
-              generalStudies: 0,
-              statistics: 0,
-              date: [],
-            };
-            setUser([...user, userInfo]);
-            alert("Successfully registered");
-            setFormDetail({
-              firstName: "",
-              lastName: "",
-              phoneNumber: "",
-            });
+          const validUserMobile = userMobile.join("");
+          if (validUserMobile.length === 11) {
+            const userExist = userDetails.find(
+              (person: { mobile: string }) => person.mobile === validUserMobile
+            );
+            if (!userExist) {
+              const userInfo: userDetailType = {
+                firstName: formDetail.firstName,
+                lastName: formDetail.lastName,
+                mobile: validUserMobile,
+                password: Math.random().toString(36).slice(2),
+                mathematics: 0,
+                englishLanguage: 0,
+                biology: 0,
+                chemistry: 0,
+                physics: 0,
+                philosophy: 0,
+                engineeringDrawing: 0,
+                engineeringWorkshop: 0,
+                generalStudies: 0,
+                statistics: 0,
+                date: [],
+                percentageAttendance: 0,
+              };
+              setUser([...user, userInfo]);
+              toast("Student successfully registered");
+              setFormDetail({
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+              });
+            } else {
+              toast.error("User already exist");
+            }
           } else {
-            alert("Phone Number should be 11 digits");
+            toast.warning("Invalid phone number (11 digits only!)");
           }
         } else {
-          alert("Invalid number format");
+          toast.warning("Invalid number format");
         }
       } else {
-        alert("Name should contain only alphabets");
+        toast.warning("Name should contain only alphabets");
       }
     } else {
-      alert("Please provide all details");
+      toast.warning("Please provide all details");
     }
   };
   const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +133,7 @@ export default function RegisterUser() {
         <input
           type="submit"
           value="register"
-          className="w-full p-2 mb-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold"
+          className="w-full p-2 mb-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold outline-none cursor-pointer"
         />
       </form>
     </div>

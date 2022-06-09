@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { UserContext, UserDetailsContext } from "../context/context-file";
 import UserIcons from "../components/icons/UserIcons";
 import WelcomeLoginImage from "../components/WelcomeLoginImage";
-import Cookies from "js-cookie";
 import { numberCheckReg } from "../utility";
+import { toast } from "react-toastify";
+import delay from "lodash.delay";
 
 export default function Login() {
   const navigate = useNavigate();
   const userDetails = useContext(UserDetailsContext).userDetails;
-  const userArray = Array.isArray(userDetails) ? userDetails : [];
   const { user, updateLoggedInUser } = useContext(UserContext);
   const [loginDetails, setLoginDetails] = useState({
     phoneNumber: "",
@@ -24,34 +24,35 @@ export default function Login() {
       if (loginMobile) {
         if (loginMobile.length === 11) {
           const validUserMobile = loginMobile.join("");
-          const loggedInUser = userArray.find(
+          const loggedInUser = userDetails.find(
             (person: { mobile: string }) => person.mobile === validUserMobile
           );
           if (loggedInUser) {
             if (loggedInUser.password === loginDetails.password) {
-              Reflect.deleteProperty(loggedInUser, "password");
               updateLoggedInUser(loggedInUser);
-              // Cookies.set("user", JSON.stringify(loggedInUser));
               sessionStorage.setItem(
                 "loggedUser",
                 JSON.stringify(loggedInUser)
               );
               updateLoggedInUser(loggedInUser);
-              navigate("/attendance-form");
+              toast.success("Successfully logged in");
+              delay(() => {
+                navigate("/attendance-form");
+              }, 3000);
             } else {
-              alert("Wrong Password");
+              toast.error("Wrong password");
             }
           } else {
-            alert("User does not exist");
+            toast.info("User not found");
           }
         } else {
-          alert("Phone number must be 11 digits");
+          toast.warning("Invalid phone number (11 digits only!)");
         }
       } else {
-        alert("Phone number must contain digits only");
+        toast.warning("Phone number must contain digits only");
       }
     } else {
-      alert("Please provide all details");
+      toast.warning("Please fill in all fields");
     }
   };
 
@@ -85,7 +86,7 @@ export default function Login() {
               <UserIcons />
             </div>
             <p className="text-center text-white mt-3 text-xl font-bold uppercase">
-              Welcome!
+              hello student!
             </p>
             <input
               type="tel"

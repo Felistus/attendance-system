@@ -20,4 +20,5 @@ export interface userDetailType {
   philosophy: number;
   generalStudies: number;
   date: Array<string>;
+  percentageAttendance: number;
 }
