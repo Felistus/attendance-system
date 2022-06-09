@@ -2,6 +2,7 @@ import delay from "lodash.delay";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AdminDetailsPopup from "../components/AdminDetailsPopup";
 import AdminIcon from "../components/icons/AdminIcon";
 import { AdminContext } from "../context/context-file";
 import { adminDetailsType } from "../customTypes/types";
@@ -9,6 +10,7 @@ import { numberCheckReg } from "../utility";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
+  const [tempAdminDetails, setTempAdminDetails] = useState<any[]>([]);
   const { adminUser, updateAdminUser } = useContext(AdminContext);
   const adminInfo = JSON.parse(localStorage.getItem("adminInfo") || "[]");
   const [adminLogin, setAdminLogin] = useState({
@@ -56,7 +58,6 @@ export default function AdminLogin() {
       toast.warning("Please provide all details");
     }
   };
-
   const handlePhone = (event: ChangeEvent<HTMLInputElement>) => {
     setAdminLogin({
       ...adminLogin,
@@ -82,39 +83,54 @@ export default function AdminLogin() {
         password: Math.random().toString(36).slice(2),
       };
       createAdmin.push(adminDetails);
+      setTempAdminDetails(createAdmin);
       localStorage.setItem("adminInfo", JSON.stringify(createAdmin));
     }
   }, []);
   return (
-    <main className="my-auto">
-      <form
-        onSubmit={handleSubmit}
-        className="md:w-[400px] max-w-[400px] bg-[#536DFE] py-4 px-8 rounded-lg  "
-      >
-        <div className="flex justify-center items-center ">
-          <AdminIcon />
-        </div>
-        <p className="text-center text-white mt-3 text-xl font-bold uppercase">
-          Welcome admin!
-        </p>
-        <input
-          type="tel"
-          value={adminLogin.phoneNumber}
-          onChange={handlePhone}
-          className="px-2 py-4 outline-none rounded-md my-4 w-full "
-          placeholder="Phone number... (eg: 08012345678)"
-        />
-        <input
-          type="password"
-          value={adminLogin.password}
-          onChange={handlePassword}
-          className="px-2 py-4 outline-none rounded-md w-full  "
-          placeholder="Enter password to continue"
-        />
-        <button className="w-full p-2 my-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold">
-          login
-        </button>
-      </form>
-    </main>
+    <>
+      <main className="my-auto">
+        {tempAdminDetails &&
+          tempAdminDetails.map((details: any, index: number) => {
+            return (
+              <div key={index}>
+                <AdminDetailsPopup
+                  mobile={details.phoneNumber}
+                  access={details.password}
+                  open={true}
+                />
+              </div>
+            );
+          })}
+        <form
+          onSubmit={handleSubmit}
+          className="md:w-[400px] max-w-[400px] bg-[#536DFE] py-4 px-8 rounded-lg  "
+        >
+          <div className="flex justify-center items-center ">
+            <AdminIcon />
+          </div>
+          <p className="text-center text-white mt-3 text-xl font-bold uppercase">
+            Welcome admin!
+          </p>
+          <input
+            type="tel"
+            value={adminLogin.phoneNumber}
+            onChange={handlePhone}
+            className="px-2 py-4 outline-none rounded-md my-4 w-full "
+            placeholder="Phone number... (eg: 08012345678)"
+          />
+          <input
+            type="password"
+            value={adminLogin.password}
+            onChange={handlePassword}
+            className="px-2 py-4 outline-none rounded-md w-full  "
+            placeholder="Enter password to continue"
+          />
+          <button className="w-full p-2 my-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold">
+            login
+          </button>
+        </form>
+      </main>
+    </>
   );
 }

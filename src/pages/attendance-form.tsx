@@ -28,7 +28,6 @@ export default function AttendanceForm() {
           .forEach((userObj: any) => {
             if (userObj.hasOwnProperty(subject)) {
               userObj[subject] += 1;
-              userObj.password = user.password;
               const totalAttendance: number =
                 userObj.biology +
                 userObj.chemistry +

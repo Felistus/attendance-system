@@ -86,7 +86,7 @@ export default function Login() {
               <UserIcons />
             </div>
             <p className="text-center text-white mt-3 text-xl font-bold uppercase">
-              Welcome!
+              hello student!
             </p>
             <input
               type="tel"
