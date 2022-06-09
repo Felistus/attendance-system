@@ -1,5 +1,7 @@
+import delay from "lodash.delay";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import AdminIcon from "../components/icons/AdminIcon";
 import { AdminContext } from "../context/context-file";
 import { adminDetailsType } from "../customTypes/types";
@@ -34,21 +36,24 @@ export default function AdminLogin() {
                 JSON.stringify(userAdmin)
               );
               updateAdminUser(userAdmin);
-              navigate("/attendance-table");
+              toast.success("Login successful");
+              delay(() => {
+                navigate("/attendance-table");
+              }, 3000);
             } else {
-              alert("Wrong Password");
+              toast.error("Wrong password");
             }
           } else {
-            alert("User does not exist");
+            toast.error("User does not exist");
           }
         } else {
-          alert("Phone number must be 11 digits");
+          toast.warning("Invalid phone number (11 digits only!)");
         }
       } else {
-        alert("Phone number must contain digits only");
+        toast.warning("Phone number must contain digits only");
       }
     } else {
-      alert("Please provide all details");
+      toast.warning("Please provide all details");
     }
   };
 

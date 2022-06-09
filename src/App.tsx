@@ -79,7 +79,7 @@ export default function App() {
               />
             </Routes>
           </BrowserRouter>
-          <ToastContainer />
+          <ToastContainer autoClose={2000} />
         </UserContext.Provider>
       </AdminContext.Provider>
     </UserDetailsContext.Provider>

@@ -5,6 +5,7 @@ import SignAttendanceImage from "../components/SignAttendanceImage";
 import { UserContext, UserDetailsContext } from "../context/context-file";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import delay from "lodash.delay";
 
 export default function AttendanceForm() {
   const navigate = useNavigate();
@@ -22,31 +23,34 @@ export default function AttendanceForm() {
     e.preventDefault();
     if (userNumber !== "" && selectOptionRef.current?.value !== "") {
       if (user.mobile === userNumber) {
-        userDetails.forEach((user: any, index: number) => {
-          if (user.mobile === userNumber) {
-            if (user.hasOwnProperty(subject)) {
-              user[subject] += 1;
-              user.password = user.password;
+        userDetails
+          .filter((userObj: any) => userObj.mobile === userNumber)
+          .forEach((userObj: any) => {
+            if (userObj.hasOwnProperty(subject)) {
+              userObj[subject] += 1;
+              userObj.password = user.password;
               const totalAttendance: number =
-                user.biology +
-                user.chemistry +
-                user.physics +
-                user.mathematics +
-                user.englishLanguage +
-                user.engineeringDrawing +
-                user.engineeringWorkshop +
-                user.philosophy +
-                user.generalStudies +
-                user.statistics;
-              user.percentageAttendance = calculateAttendance(totalAttendance);
+                userObj.biology +
+                userObj.chemistry +
+                userObj.physics +
+                userObj.mathematics +
+                userObj.englishLanguage +
+                userObj.engineeringDrawing +
+                userObj.engineeringWorkshop +
+                userObj.philosophy +
+                userObj.generalStudies +
+                userObj.statistics;
+              userObj.percentageAttendance =
+                calculateAttendance(totalAttendance);
             }
-          }
-          userDetails.splice(index, 1, user);
-          toast.success("Attendance marked successfully");
-          // sessionStorage.removeItem("loggedUser");
-          // updateLoggedInUser({});
-          // navigate("/login"); //install lodash Delay
-        });
+            userDetails.splice(userDetails.indexOf(userObj), 1, userObj);
+            toast.success("Attendance marked successfully");
+            delay(() => {
+              sessionStorage.removeItem("loggedUser");
+              updateLoggedInUser({});
+              navigate("/login");
+            }, 3000);
+          });
       } else {
         toast.info("Please enter your correct mobile number");
       }

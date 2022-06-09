@@ -3,6 +3,7 @@ import { UserDetailsContext } from "../context/context-file";
 import AdminIcon from "../components/icons/AdminIcon";
 import { nameCheckReg, numberCheckReg } from "../utility";
 import { userDetailType } from "../customTypes/types";
+import { toast } from "react-toastify";
 
 export default function RegisterUser() {
   const { userDetails, updateUserDetails } = useContext(UserDetailsContext);
@@ -53,26 +54,26 @@ export default function RegisterUser() {
                 percentageAttendance: 0,
               };
               setUser([...user, userInfo]);
-              alert("Successfully registered");
+              toast("Student successfully registered");
               setFormDetail({
                 firstName: "",
                 lastName: "",
                 phoneNumber: "",
               });
             } else {
-              alert("User already exist");
+              toast.error("User already exist");
             }
           } else {
-            alert("Phone Number should be 11 digits");
+            toast.warning("Invalid phone number (11 digits only!)");
           }
         } else {
-          alert("Invalid number format");
+          toast.warning("Invalid number format");
         }
       } else {
-        alert("Name should contain only alphabets");
+        toast.warning("Name should contain only alphabets");
       }
     } else {
-      alert("Please provide all details");
+      toast.warning("Please provide all details");
     }
   };
   const handleFirstNameChange = (event: ChangeEvent<HTMLInputElement>) => {

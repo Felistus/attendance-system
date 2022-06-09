@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { UserContext, UserDetailsContext } from "../context/context-file";
 import UserIcons from "../components/icons/UserIcons";
 import WelcomeLoginImage from "../components/WelcomeLoginImage";
-import Cookies from "js-cookie";
 import { numberCheckReg } from "../utility";
 import { toast } from "react-toastify";
+import delay from "lodash.delay";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -29,14 +29,16 @@ export default function Login() {
           );
           if (loggedInUser) {
             if (loggedInUser.password === loginDetails.password) {
-              // Reflect.deleteProperty(loggedInUser, "password");
               updateLoggedInUser(loggedInUser);
               sessionStorage.setItem(
                 "loggedUser",
                 JSON.stringify(loggedInUser)
               );
               updateLoggedInUser(loggedInUser);
-              navigate("/attendance-form");
+              toast.success("Successfully logged in");
+              delay(() => {
+                navigate("/attendance-form");
+              }, 3000);
             } else {
               toast.error("Wrong password");
             }
