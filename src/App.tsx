@@ -43,7 +43,7 @@ export default function App() {
               <Route element={<AdminPanel />}>
                 <Route path="/" element={<AdminLogin />} />
                 <Route
-                  path="register-user"
+                  path="/register-user"
                   element={
                     <RequireAuth>
                       <RegisterUser />
@@ -51,7 +51,7 @@ export default function App() {
                   }
                 />
                 <Route
-                  path="attendance-table"
+                  path="/attendance-table"
                   element={
                     <RequireAuth>
                       <AttendanceTable />
@@ -60,7 +60,7 @@ export default function App() {
                 />
               </Route>
               <Route
-                path="attendance-form"
+                path="/attendance-form"
                 element={
                   <ProtectedPage>
                     <AttendanceForm />
@@ -68,7 +68,7 @@ export default function App() {
                 }
               />
 
-              <Route path="login" element={<Login />} />
+              <Route path="/login" element={<Login />} />
               <Route
                 path="*"
                 element={
