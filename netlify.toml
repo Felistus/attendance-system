@@ -1,0 +1,19 @@
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+
+[[redirects]]
+  from = "/login"
+  to = "/login"
+
+[[redirects]]
+  from = "/attendance-form"
+  to = "/attendance-form"
+
+[[redirects]]
+  from = "/attendance-table"
+  to = "/attendance-table"
+
+[[redirects]]
+  from = "/register-user"
+  to = "/register-user"
