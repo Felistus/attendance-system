@@ -1,4 +1,4 @@
-https://ink-it.netlify.app/login  /login
-https://ink-it.netlify.app/attendance-form    /attendance-form
-https://ink-it.netlify.app/attendance-table   /attendance-table
-https://ink-it.netlify.app/register-user      /register-user
+/login  /login
+/attendance-form    /attendance-form
+/attendance-table   /attendance-table
+/register-user      /register-user
