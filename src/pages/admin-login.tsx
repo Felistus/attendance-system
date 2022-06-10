@@ -129,6 +129,19 @@ export default function AdminLogin() {
           <button className="w-full p-2 my-4 capitalize rounded-md bg-white hover:bg-[#CCCCCC] text-[#536DFE] font-bold">
             login
           </button>
+          <div className="w-full flex justify-end">
+            <button
+              onClick={() => {
+                localStorage.removeItem("adminInfo");
+                updateAdminUser({});
+                location.reload();
+              }}
+              className="text-white font-medium w-fit"
+              title="test-button: delete temporary admin login details from localStorage and create new one"
+            >
+              Delete
+            </button>
+          </div>
         </form>
       </main>
     </>
