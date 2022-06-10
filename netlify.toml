@@ -1,8 +1,4 @@
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-
-[[redirects]]
   from = "/login"
   to = "/login"
 
