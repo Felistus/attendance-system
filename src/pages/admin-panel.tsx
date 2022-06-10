@@ -13,19 +13,30 @@ export default function AdminPanel() {
   const navigate = useNavigate();
   const { adminUser, updateAdminUser } = useContext(AdminContext);
   const [showSideBar, setShowSideBar] = useState(true);
+  const [sideBarFullScreen, setSideBarFullScreen] = useState(true);
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
+    setSideBarFullScreen(!sideBarFullScreen);
   };
   const handleLogout = () => {
     sessionStorage.removeItem("adminLoggedIn");
     updateAdminUser({});
     navigate("/");
   };
+  const hideSideBar = () => {
+    setShowSideBar(false);
+    setSideBarFullScreen(false);
+  };
   return (
     <main className="w-full h-screen bg-slate-200">
       <section className="flex h-full ">
         {showSideBar ? (
-          <div className="w-[300px] bg-[#536DFE] h-full px-4 py-2 text-slate-200 uppercase font-mono duration-200 translate-x-0 translate-y-0">
+          <div
+            className={
+              `${sideBarFullScreen ? " w-full  " : " hidden "}` +
+              "h-full w-full md:w-[300px] bg-[#536DFE] px-4 py-2 text-slate-200 uppercase font-mono duration-200 translate-x-0 translate-y-0"
+            }
+          >
             <div className="flex justify-between items-center w-full h-16 mb-4  ">
               <Link to={"/"} className="flex flex-col    ">
                 <p className="font-bold text-5xl ">ink.it</p>
@@ -38,7 +49,10 @@ export default function AdminPanel() {
                 <MinIcon />
               </span>
             </div>
-            <div className="font-medium h-[calc(100vh-152px)] py-16 space-y-4 ">
+            <div
+              onClick={hideSideBar}
+              className="font-medium h-[calc(100vh-152px)] py-16 space-y-4 "
+            >
               <Link
                 to={"/attendance-form"}
                 className="flex items-center hover:underline decoration-2 space-x-1 "
@@ -93,7 +107,7 @@ export default function AdminPanel() {
                 <p>table</p>
               </NavLink>
             </div>
-            <div className="w-full flex flex-col justify-center h-16 text-xs font-bold">
+            <div className="w-full md:text-left text-center flex flex-col justify-center h-16 text-xs font-bold">
               <p>let's make that process easy</p>
               <p className="text-slate-800 font-serif">JaroTechnologies</p>
             </div>
@@ -107,7 +121,12 @@ export default function AdminPanel() {
           </div>
         )}
 
-        <div className="w-full h-screen flex flex-col items-center justify-center px-4 py-2">
+        <div
+          className={
+            `${sideBarFullScreen ? " hidden " : " flex "}` +
+            "w-full md:flex h-screen flex-col items-center justify-center px-4 py-2"
+          }
+        >
           {!showSideBar ? (
             <Link
               to={"/"}
