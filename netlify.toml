@@ -1,15 +1,15 @@
 [[redirects]]
   from = "/login"
-  to = "/login"
+  to = "/"
 
 [[redirects]]
   from = "/attendance-form"
-  to = "/attendance-form"
+  to = "/"
 
 [[redirects]]
   from = "/attendance-table"
-  to = "/attendance-table"
+  to = "/"
 
 [[redirects]]
   from = "/register-user"
-  to = "/register-user"
+  to = "/"
