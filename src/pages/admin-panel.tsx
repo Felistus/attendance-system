@@ -23,10 +23,12 @@ export default function AdminPanel() {
     updateAdminUser({});
     navigate("/");
   };
-  // const hideSideBar = () => {
-  //   setShowSideBar(false);
-  //   setSideBarFullScreen(false);
-  // };
+  const hideSideBar = () => {
+    if (window.screen.width < 750) {
+      setShowSideBar(false);
+      setSideBarFullScreen(false);
+    }
+  };
   return (
     <main className="w-full h-screen bg-slate-200">
       <section className="flex h-full ">
@@ -50,7 +52,7 @@ export default function AdminPanel() {
               </span>
             </div>
             <div
-              // onClick={hideSideBar}
+              onClick={hideSideBar}
               className="font-medium h-[calc(100vh-152px)] py-16 space-y-4 "
             >
               <Link
