@@ -1,3 +1,7 @@
 [[redirects]]
   from = "/attendance-table"
   to = "/"
+
+[[redirects]]
+  from = "/login"
+  to = "/login"
