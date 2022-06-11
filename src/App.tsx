@@ -11,6 +11,7 @@ import AdminPanel from "./pages/admin-panel";
 import AttendanceForm from "./pages/attendance-form";
 import AttendanceTable from "./pages/attendance-table";
 import Login from "./pages/login";
+import PageNotFound from "./pages/pageNotFound";
 import RegisterUser from "./pages/register-user";
 
 export default function App() {
@@ -69,14 +70,7 @@ export default function App() {
               />
 
               <Route path="login" element={<Login />} />
-              <Route
-                path="*"
-                element={
-                  <main className="p-4">
-                    <p>There is nothing Here...!</p>
-                  </main>
-                }
-              />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
           <ToastContainer autoClose={2000} />
