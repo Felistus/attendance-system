@@ -1,3 +1,4 @@
 [[redirects]]
-  from = "/attendance-table"
+  from = "/*"
   to = "/"
+  status = 200
