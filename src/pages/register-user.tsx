@@ -124,6 +124,7 @@ export default function RegisterUser() {
         />
         <input
           type="tel"
+          maxLength={11}
           name="user-phone-number"
           value={formDetail.phoneNumber}
           onChange={handlePhoneChange}
