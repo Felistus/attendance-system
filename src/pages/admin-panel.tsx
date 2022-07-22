@@ -56,6 +56,8 @@ export default function AdminPanel() {
               className="font-medium h-[calc(100vh-152px)] py-16 space-y-4 "
             >
               <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 to={"/attendance-form"}
                 className="flex items-center hover:underline decoration-2 space-x-1 "
               >
@@ -63,6 +65,8 @@ export default function AdminPanel() {
                 <p> attendance</p>
               </Link>
               <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 to={"/login"}
                 className="flex items-center hover:underline decoration-2 space-x-1 "
               >
