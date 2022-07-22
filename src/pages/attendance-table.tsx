@@ -21,7 +21,7 @@ export default function AttendanceTable() {
       cellStyle: { textTransform: "uppercase" },
       editable: true,
     },
-    { field: "mobile", editable: true },
+    { field: "mobile" },
     { field: "password" },
     { field: "biology" },
     { field: "chemistry" },

@@ -6,7 +6,7 @@ import AdminDetailsPopup from "../components/AdminDetailsPopup";
 import AdminIcon from "../components/icons/AdminIcon";
 import { AdminContext } from "../context/context-file";
 import { adminDetailsType } from "../customTypes/types";
-import { numberCheckReg } from "../utility";
+import { generateAdminNumber, numberCheckReg } from "../utility";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -77,9 +77,10 @@ export default function AdminLogin() {
       return;
     } else {
       const createAdmin: any[] = [];
+      const adminNum = generateAdminNumber(11);
       const adminDetails: adminDetailsType = {
         name: "Admin",
-        phoneNumber: "11111111111",
+        phoneNumber: adminNum,
         password: Math.random().toString(36).slice(2),
       };
       createAdmin.push(adminDetails);
@@ -114,6 +115,7 @@ export default function AdminLogin() {
           </p>
           <input
             type="tel"
+            maxLength={11}
             value={adminLogin.phoneNumber}
             onChange={handlePhone}
             className="px-2 py-4 outline-none rounded-md my-4 w-full "

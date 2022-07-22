@@ -90,6 +90,7 @@ export default function Login() {
             </p>
             <input
               type="tel"
+              maxLength={11}
               value={loginDetails.phoneNumber}
               onChange={handlePhoneNumberChange}
               className="px-2 py-4 outline-none rounded-md my-4 w-full uppercase "

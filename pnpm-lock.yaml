@@ -10,7 +10,6 @@ specifiers:
   ag-grid-community: ^27.3.0
   ag-grid-react: ^27.3.0
   autoprefixer: ^10.4.7
-  js-cookie: ^3.0.1
   lodash.delay: ^4.1.1
   postcss: ^8.4.14
   react: ^18.0.0
@@ -25,7 +24,6 @@ dependencies:
   '@headlessui/react': 1.6.4_react-dom@18.1.0+react@18.1.0
   ag-grid-community: 27.3.0
   ag-grid-react: 27.3.0_35840d778ed181eb13d8f40bebdc7252
-  js-cookie: 3.0.1
   lodash.delay: 4.1.1
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
@@ -978,11 +976,6 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
     dev: true
-
-  /js-cookie/3.0.1:
-    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
-    engines: {node: '>=12'}
-    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
