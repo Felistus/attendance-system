@@ -61,5 +61,4 @@ In the course of this project, I learnt how to implement the following:
 ## Author
 
 - Website - [Ezeugo Felistus Obieze](https://github.com/Felistus)
-- Frontend Mentor - [@Felistus](https://www.frontendmentor.io/profile/Felistus)
 - Twitter - [@ezeugoobieze](https://www.twitter.com/ezeugoobieze)
